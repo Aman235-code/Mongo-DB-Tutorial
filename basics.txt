@@ -1,0 +1,190 @@
+MongoDB:-
+Open src, document-oriented NOSQL DB management system.
+designed for flexibility, scalability and performance in handling unstructured/semi-structured data.
+10gen company --> MongoDB (2007)
+2009 (1st version)
+HUMONGOUS
+
+sql:-
+relational dbs
+use structured tables to store data in rows and cols
+suitable for well efined apps for well defined schemas and fiexed ds.
+E- commerce platform, HR management
+eg: MYSQL, Postgre SQL, Oracle
+
+mongodb:-
+Non relational Dbs
+provide flexibility in data storage, allows various data types and structures
+ideal for apps with dynamic / evolvong data models
+CMS, SOcial Media platform, Gaming platform
+Eg:- mongodb, cassandara redis
+
+
+SQL:-fixed cols and rows
+NoSQL:-
+Collection Students(Table):-
+[
+	{				--> first document
+		id
+		fname......
+		subj:[{},{}]
+	},
+	{				--> second document
+
+	},
+
+]
+
+Database:- Multiple Collections(Students, Teachers, Products)
+
+Student Collections --> Document { ....... }
+Teacher Collections --> DOcuments {...}, {...}
+Products COllections --> {2fields}, {3fields} --> Schemaless
+
+flexible schema design:-
+Allows dynamic, schemaless DS
+Easily accomodate changing data requirements
+
+Flexibility and Performance:-
+Horizontal, scaling supportslarge datasets and high traffic
+optimized read and write operations for fast performance
+
+Document Oriented Storage:-
+Data is sotred in flexible JSON like BSON documents
+Self contained units with rich data types and nested arrays
+
+Dynamic queries:
+rich query language with support for complete queries
+utilize indexes to speed up query execution
+
+aggregation frameworks:
+perform avanced data transformation and analysis
+process data using multiple pipeline stages
+
+Opnen src and community
+regular updates, improvements and support
+
+Working:
+FE: React
+BE: Nodejs
+DB: Connect, Server--> Sotrage engine--> Read and Write data from db(WiredTiger)
+server --> Storage Engine --> Db (COnverts JSON to BSON)
+
+
+JSON Vs BSON:-
+In MongoDB we write in JSON format only but behindthe scene data is stored in BSON
+A binary representation of JSON. (Binary JSON)
+We can achieve higer r and w speeds, reduced storage requirements and imroveddata 
+manipulative capabilities. Making it well suited for handling large and complex datasets while
+maintaining performance & efiicientcy.
+
+
+MongoDB server
+MongoDB Shell :-https://www.mongodb.com/try/download/shell
+https://www.mongodb.com/try/download/database-tools --> DB tools
+
+mongod --version
+
+Creating COllections:-
+
+show dbs;
+
+use <database-name>
+
+db.dropDatabase();
+
+show collections;
+
+db.createCollection('<collection-name>')
+
+db.<collection-name>.drop();
+
+Insert Operation:-
+db.<coll-name>.insertOne({field1:val1,field2:val2,}) --> Only 1 document insert
+db.<coll-name>.insertMany([{field1:val1,field2:val2,...},{field1:val1,field2:val2,...}])--> inserting mult docs
+
+db.data.insertOne({'name':'Aman',age:29})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6611641d9c6aef48eb49a792")
+}
+
+we can add without creating collections
+
+
+ db.data.insertMany([{'name':'Aman',age:29},{'name':'AmanDa',age:20},{'name':'Amanaa',age:90}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("661164699c6aef48eb49a793"),
+                ObjectId("661164699c6aef48eb49a794"),
+                ObjectId("661164699c6aef48eb49a795")
+        ]
+}
+
+db.data.find() --> to display the records
+
+Usage of when / not to use quotes:-
+special Chars:-
+If a field name contains specialchras/spaces or starts with a numeric digit --> use quotes
+
+Reserved WOrds:- if a field name is a reserved word, use quotes to distinguish it fromreserved word
+
+
+ordered true:
+{ordered:false} (default : true) --> insertMany
+
+Collection Names r case sensitive
+field names within docs r also case sensitive
+
+db.Product.insertOne({}
+...p................({}
+
+Both r different
+
+Read ops:-
+db.<cname>.find({key:val}) --> multiple docs
+db.<cname>.findOne({key:val}) --> single first doc
+
+import json:-
+mongoimport jsonfile.json -d database_name -c collection_name --> not in []
+mongoimport jsonfile.json -d database_name -c collection_name --jsonArray --> inside []
+limited 16 mb/ less
+mongoexport -d db_name -c col_name -o <location\newFilename.json>
+
+Comparision operators:-
+$eq, $ne $gt $gte $lt $lte $in $nin
+
+db.collectionName.find({'fieldName':{$operator:val}})
+db.products.find({'proce':{$eq:69}}).count()
+db.products.find({'proce':{$in:[249,128,67]}})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

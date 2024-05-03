@@ -1,0 +1,105 @@
+Update Operations:
+
+db.cname.updateOne(
+	{ filter },
+	{$set: {existingField:newValue, newField:"new Value",....},}
+);
+
+db.products.updateOne(
+
+	{_id: ObjId('.......') },
+	{$set: {'price':45} }
+)
+
+db.cname.updateMany(
+	{ filter },
+	{ $set: {existingField: newValue, //...},}
+);
+
+db.products.updateMany(
+	{price:120},
+	{$set:{'isFeatured':true}}
+);
+
+Removing and Renaming Fields:
+
+	db.cname.updateOne( { filter }, { $unset: {fieldName:1} } ); --> remove
+
+	db.cname.updateOne( { filter }, { $rename: {oldFieldName: "newFieldName} } ); --> rename
+	db.products.updateMany( {price:123}, { $rename: {'isFeatured' : 'isFeature'}});	
+
+Updating arrays in embedded docs:-
+	db.cname.updateOne( {filter}, {$push: {arrayField: "new element"}});
+	db.comments.updateOne( {_id:5}, {$push: {comments: {user:'Eva', text:'subscribe'} } } );
+	2nd comments is an array name	
+
+	db.cname.updateOne( {filter}, {$pop: {arrayField: val}} );
+	db.comments.updateOne( {_id:5}, {$pop: {'comments':1} } ); --> removes last element of an array (user)
+	
+	db.cname.updateOne( {filter}, {$set: {"arrayField.$.text": "updated text"}} )
+	db.comments.updateOne( {_id:7, 'comments.user':'Alice'}, {$set: {'comments.$.text':'Awesome'}} )
+	comments is an arr of obj where text is key
+	$ --> positional operator
+
+
+db.comments.updateOne( {_id:5}, {$set:{'user':'jessy'}} ) --> inserts a new field called user with val jessy
+db.comments.updateOne( {_id:5}, {$unset:{'user':1}}) --> deletes the field user
+
+Delete Operation:-
+db.cname.deleteOne({filter});
+db.cname.deleteOne({_id:1}); --> deletes a document
+
+db.sales.deleteMany({'price':55}) --> deletes all the documents where price = 55
+
+Indexes:- specialized ds that optimize data retrieval spped in mongodb.
+	  store a fraction of data in a more searchable format.
+	  enable mongodb to locate data faster during queries
+	  they r speaprate from collections and multiple indexes can exist per collection
+
+benifits: faster querying, efficient sorting, improved aggregation,Indexing on multiple fields
+
+explain() method to uunderstand query execution in detail
+db.products.find( {name:'air fryer'} ).explain()
+db.products.find( {name:'air fryer'} ).explain("executionStats");
+to measure time taken to execute query
+
+db.products.createIndex( {field:1} );
+db.products.createIndex( {'name':1} )
+1 -->for storing indexes in asc order
+-1 --> desc order
+
+db.coll.getIndexes(); --> _id --> is a default index
+
+db.products.dropIndex( {field:1} );
+db.products.dropIndex("index_name");
+
+db.users.createIndex( {email:1}, {unique:true} )
+
+Aggregation:- process of performing transformatinos on docs and combinig them to produce computed res
+Pipeline stages:- Aggregation consists of multiple pipeline stages
+each performing a specific operation on input data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

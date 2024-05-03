@@ -1,0 +1,127 @@
+Cursors:-
+
+Used to Efiiciency
+retrieve large res sets from queries providing control over data retrieval process
+
+methods: count() limit() skip() sort({key: (1/-1)})
+
+1--> asc
+-1 --> desc
+
+lilmit(1)--> only 1 doc
+skip(1) --> it will not disokay first doc and displayfrom 2nd onwards
+
+Logical Operators:-
+
+$and $or $not $nor
+
+{$and:[{cond1},{cond2},...]}
+
+price>100 && name=diamong ring
+db.products.find({$and:[{'price':{$gt:100}},{'name':'DIamnosd ring'}]})
+
+db.products.find({$or:[{'price':{$gt:2000}},{'name':'DIamnosd ring'}]})
+
+db.products.find({$nor:[{'price':{$gt:2000}},{'name':'DIamnosd ring'}]}) -- display all docs except these two cond
+
+db.products.find({'price':{$not:{$eq:100}}})
+
+not --> {field:{$not:{operator:val}}}
+
+Complex Expressions:-
+$expr operator allows using aggregation expresssions within a query
+useful when u need to compare fields from the same doc ina more complex manner
+
+syntax:-> {$expr:{operator:[field,val]}}
+db.products.find({$expr:{$gt:['$price',1234]}}); --> need to use $ before field
+
+db.sales.find({ $expr: {$gt:[{$multiply: ['$quantity', '$price']} , '$targetPrice'  ] } })
+
+elements operator:-
+
+$exists, $type, $size
+
+{field:{$exists:<boolean>}} -->matches docs that have a specific field regardlessof its val
+
+db.products.find( {price:{$exists: true}} ).count()
+db.products.find( {price:{$exists: true}, price:{$gt:1250}  } ).count()
+
+
+{field:{$type:<bson-data-type>}} --> filters docs based on BSON data type of a field
+<BsonType> val can be any one of this
+Double, String, Object, Array, Binary Data, Undefined, Object id, Boolean, Date, Null, Regex, JS Code
+   1       2      3        4       5              6       7          8       9    10      11      12
+
+db.products.find( {price:{$type:'number'}}  ).count()
+db.products.find( {price:{$type:'string'}}  ).count() --> 0
+db.products.find( {isFeatured:{$type:'bool'}}  ).count()
+db.products.find( {price:{$type:8}}  ).count()
+
+
+{field:{$size:<array-length>}}
+$size --> matches docs where size of an array field matches a specified val
+
+db.comments.find({'comments': {$size:2}})
+
+Projection:-
+db.collection.find({},{field1:1, field2: 1})
+to include specific fields, use projection witha value of 1 for the fields u want.
+to exclude fields use projection witha value of 0 for the fields u want to exclude
+u cannot include and exclude fields simultaneously in same query projection.
+
+db.comments.find({'comments': {$size:2}},{comments:1,_id:0}) --> only comments field vl b shown
+
+Embedded DOcuments:-
+Query documents inside embedded documents using dot notation
+
+db.collection.find({"parent.child":val})
+db.comments.find({'comments.user':'Lily'})
+db.comments.find({'metadata.views': {$gt: 1200} })
+db.comments.find({'comments.user':'Henry','metadata.likes':{$gt:50} })
+
+
+
+$all vs $elemMatch
+$all --> selects docs where val of a field is an array that contains all specified elements
+{<field>:{$all:[<val1>,<val2>......]}}
+
+$elemMatch --> matches docs that contain an aerray field with at least one element that matches all specified query criteria
+{<field>:{$elemMatch:{<query1>,<query2>,....}}}
+
+
+db.comments.find({'comments.user':{$all: ['Alice','Vinod'] }}) --> same field
+
+db.comments.find({'comments': {$elemMatch:{'user':'Vinod','text':'Awesome'}  } })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

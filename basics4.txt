@@ -1,0 +1,30 @@
+$match --> similar to the queryused as first argument in .find()
+it documents based on specific conditions
+
+syntax:
+{$match: {<query>}}
+
+db.products.aggregate([
+
+{$match:{company:"684939"}}
+
+])
+
+$group --> groups documents by specified fields and performs aggregate operations on grouped data.
+{
+	$group:
+	{
+	_id:<expression>,
+	<field1>:{<accumulator>:<expression1>},
+	...
+	}
+}
+
+db.products.aggregate([{
+
+	$group:{_id:{comp:"$company"}, totalProducts:{$sum:1}}}
+}])
+
+$company --> existing field
+
+groups products by company and calculates total no of products for each company
